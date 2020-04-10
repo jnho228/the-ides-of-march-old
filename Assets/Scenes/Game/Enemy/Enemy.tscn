@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Assets/Scenes/Game/Enemy/Enemy.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Textures/colored_transparent.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Scenes/Game/Knife/Knife.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/Audio/Effects/enemy attack.wav" type="AudioStream" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 28.158, 31.8541 )
+
+[node name="Enemy" type="Area2D"]
+modulate = Color( 0.552941, 1, 0.854902, 1 )
+collision_layer = 2
+script = ExtResource( 1 )
+knife_scene = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 3, 3 )
+texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 511, 35, 14, 14 )
+
+[node name="ThrowTimer" type="Timer" parent="."]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+[connection signal="area_entered" from="." to="." method="_on_Enemy_area_entered"]
+[connection signal="timeout" from="ThrowTimer" to="." method="_on_ThrowTimer_timeout"]
